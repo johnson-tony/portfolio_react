@@ -692,7 +692,7 @@ function Header() {
                 onClose: ()=>setProfileOpen(false)
             }, void 0, false, {
                 fileName: "[project]/components/header.tsx",
-                lineNumber: 107,
+                lineNumber: 106,
                 columnNumber: 7
             }, this)
         ]
