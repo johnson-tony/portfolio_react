@@ -1,42 +1,90 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Save } from "lucide-react"
+import { BASE_URL } from "@/config/api"
+
+interface Profile {
+  fullName: string
+  role: string
+  about: string
+  currentFocus: string
+  skills: string
+  linkedin: string
+  github: string
+  email: string
+}
 
 export function ProfileManager() {
-  const [profile, setProfile] = useState({
-    fullName: "Johnson Maria Tony",
-    role: "Full-stack Developer",
-    about: "I specialize in building modern web applications using Angular, Python, SQL, and AWS.",
-    currentFocus: "Web applications, Cloud solutions, Developer tools",
-    skills: "Angular, Python, SQL, AWS, TypeScript, Node.js, Docker, Git",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "johnson@example.com",
+  const [profile, setProfile] = useState<Profile>({
+    fullName: "",
+    role: "",
+    about: "",
+    currentFocus: "",
+    skills: "",
+    linkedin: "",
+    github: "",
+    email: "",
   })
 
-  const [saved, setSaved] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState("")
 
-  const handleSave = () => {
-    // In production, this would save to a database
-    localStorage.setItem("admin-profile", JSON.stringify(profile))
-    setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
+  // Load profile from backend
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/profile`)
+        if (!res.ok) throw new Error("Failed to fetch profile")
+        const data = await res.json()
+        setProfile(data)
+      } catch (err) {
+        console.error(err)
+        setMessage("Failed to load profile")
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchProfile()
+  }, [])
+
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      const res = await fetch(`${BASE_URL}/profile`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profile),
+      })
+      if (!res.ok) throw new Error("Failed to save profile")
+      setMessage("Profile saved successfully!")
+      setTimeout(() => setMessage(""), 3000)
+    } catch (err) {
+      console.error(err)
+      setMessage("Failed to save profile")
+    } finally {
+      setSaving(false)
+    }
   }
+
+  if (loading) return <p>Loading profile...</p>
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Profile Settings</h2>
-        <Button onClick={handleSave}>
+        <Button onClick={handleSave} disabled={saving}>
           <Save className="h-4 w-4 mr-2" />
-          {saved ? "Saved!" : "Save Changes"}
+          {saving ? "Saving..." : "Save Changes"}
         </Button>
       </div>
+
+      {message && <p className="text-sm text-accent">{message}</p>}
 
       <Card className="p-6">
         <div className="space-y-6">
@@ -46,7 +94,6 @@ export function ProfileManager() {
               <Input
                 value={profile.fullName}
                 onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
-                placeholder="Your full name"
               />
             </div>
 
@@ -55,7 +102,6 @@ export function ProfileManager() {
               <Input
                 value={profile.role}
                 onChange={(e) => setProfile({ ...profile, role: e.target.value })}
-                placeholder="Your role/title"
               />
             </div>
           </div>
@@ -65,7 +111,6 @@ export function ProfileManager() {
             <Textarea
               value={profile.about}
               onChange={(e) => setProfile({ ...profile, about: e.target.value })}
-              placeholder="Brief introduction"
               rows={3}
             />
           </div>
@@ -75,7 +120,6 @@ export function ProfileManager() {
             <Input
               value={profile.currentFocus}
               onChange={(e) => setProfile({ ...profile, currentFocus: e.target.value })}
-              placeholder="What you're currently working on"
             />
           </div>
 
@@ -84,7 +128,6 @@ export function ProfileManager() {
             <Textarea
               value={profile.skills}
               onChange={(e) => setProfile({ ...profile, skills: e.target.value })}
-              placeholder="Comma-separated list of skills"
               rows={2}
             />
           </div>
@@ -97,7 +140,6 @@ export function ProfileManager() {
                 <Input
                   value={profile.linkedin}
                   onChange={(e) => setProfile({ ...profile, linkedin: e.target.value })}
-                  placeholder="https://linkedin.com/in/..."
                 />
               </div>
 
@@ -106,7 +148,6 @@ export function ProfileManager() {
                 <Input
                   value={profile.github}
                   onChange={(e) => setProfile({ ...profile, github: e.target.value })}
-                  placeholder="https://github.com/..."
                 />
               </div>
 
@@ -116,7 +157,6 @@ export function ProfileManager() {
                   type="email"
                   value={profile.email}
                   onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                  placeholder="your@email.com"
                 />
               </div>
             </div>

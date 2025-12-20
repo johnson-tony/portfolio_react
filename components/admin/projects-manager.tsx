@@ -1,14 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Plus, Trash2, Edit } from "lucide-react"
+import { BASE_URL } from "@/config/api"
 
 interface Project {
-  id: string
+  _id: string
   title: string
   problem: string
   decision: string
@@ -16,19 +17,8 @@ interface Project {
   outcome: string
 }
 
-const MOCK_PROJECTS: Project[] = [
-  {
-    id: "1",
-    title: "Cloud Migration Platform",
-    problem: "Legacy infrastructure issues",
-    decision: "Containerized microservices on AWS",
-    tradeoff: "Initial time vs long-term flexibility",
-    outcome: "60% cost reduction",
-  },
-]
-
 export function ProjectsManager() {
-  const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS)
+  const [projects, setProjects] = useState<Project[]>([])
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState({
@@ -39,22 +29,67 @@ export function ProjectsManager() {
     outcome: "",
   })
 
-  const handleAdd = () => {
-    const newProject: Project = {
-      id: Date.now().toString(),
-      ...formData,
+  // Fetch projects from backend on load
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/projects`)
+        const data = await res.json()
+        setProjects(data)
+      } catch (err) {
+        console.error("Failed to fetch projects", err)
+      }
     }
-    setProjects([...projects, newProject])
-    setFormData({ title: "", problem: "", decision: "", tradeoff: "", outcome: "" })
-    setIsAdding(false)
+    fetchProjects()
+  }, [])
+
+  // Add new project
+  const handleAdd = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/projects`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+      const newProject = await res.json()
+      setProjects([...projects, newProject])
+      setFormData({ title: "", problem: "", decision: "", tradeoff: "", outcome: "" })
+      setIsAdding(false)
+    } catch (err) {
+      console.error("Failed to add project", err)
+    }
   }
 
-  const handleDelete = (id: string) => {
-    setProjects(projects.filter((p) => p.id !== id))
+  // Update existing project
+  const handleUpdate = async () => {
+    if (!editingId) return
+    try {
+      const res = await fetch(`${BASE_URL}/projects/${editingId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+      const updatedProject = await res.json()
+      setProjects(projects.map((p) => (p._id === editingId ? updatedProject : p)))
+      setEditingId(null)
+      setFormData({ title: "", problem: "", decision: "", tradeoff: "", outcome: "" })
+    } catch (err) {
+      console.error("Failed to update project", err)
+    }
+  }
+
+  // Delete project
+  const handleDelete = async (id: string) => {
+    try {
+      await fetch(`${BASE_URL}/projects/${id}`, { method: "DELETE" })
+      setProjects(projects.filter((p) => p._id !== id))
+    } catch (err) {
+      console.error("Failed to delete project", err)
+    }
   }
 
   const handleEdit = (project: Project) => {
-    setEditingId(project.id)
+    setEditingId(project._id)
     setFormData({
       title: project.title,
       problem: project.problem,
@@ -62,12 +97,6 @@ export function ProjectsManager() {
       tradeoff: project.tradeoff,
       outcome: project.outcome,
     })
-  }
-
-  const handleUpdate = () => {
-    setProjects(projects.map((p) => (p.id === editingId ? { ...p, ...formData } : p)))
-    setEditingId(null)
-    setFormData({ title: "", problem: "", decision: "", tradeoff: "", outcome: "" })
   }
 
   const handleCancel = () => {
@@ -92,60 +121,39 @@ export function ProjectsManager() {
         <Card className="p-6">
           <h3 className="font-semibold mb-4">{editingId ? "Edit Project" : "Add New Project"}</h3>
           <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Title</label>
-              <Input
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                placeholder="Project title"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Problem</label>
-              <Textarea
-                value={formData.problem}
-                onChange={(e) => setFormData({ ...formData, problem: e.target.value })}
-                placeholder="What problem did this project solve?"
-                rows={2}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Decision</label>
-              <Textarea
-                value={formData.decision}
-                onChange={(e) => setFormData({ ...formData, decision: e.target.value })}
-                placeholder="What technical decisions were made?"
-                rows={2}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Trade-offs</label>
-              <Textarea
-                value={formData.tradeoff}
-                onChange={(e) => setFormData({ ...formData, tradeoff: e.target.value })}
-                placeholder="What trade-offs were considered?"
-                rows={2}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Outcome</label>
-              <Textarea
-                value={formData.outcome}
-                onChange={(e) => setFormData({ ...formData, outcome: e.target.value })}
-                placeholder="What was the result?"
-                rows={2}
-              />
-            </div>
+            <Input
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              placeholder="Project title"
+            />
+            <Textarea
+              value={formData.problem}
+              onChange={(e) => setFormData({ ...formData, problem: e.target.value })}
+              placeholder="Problem"
+              rows={2}
+            />
+            <Textarea
+              value={formData.decision}
+              onChange={(e) => setFormData({ ...formData, decision: e.target.value })}
+              placeholder="Decision"
+              rows={2}
+            />
+            <Textarea
+              value={formData.tradeoff}
+              onChange={(e) => setFormData({ ...formData, tradeoff: e.target.value })}
+              placeholder="Trade-offs"
+              rows={2}
+            />
+            <Textarea
+              value={formData.outcome}
+              onChange={(e) => setFormData({ ...formData, outcome: e.target.value })}
+              placeholder="Outcome"
+              rows={2}
+            />
 
             <div className="flex gap-2">
               <Button onClick={editingId ? handleUpdate : handleAdd}>{editingId ? "Update" : "Add"}</Button>
-              <Button variant="outline" onClick={handleCancel}>
-                Cancel
-              </Button>
+              <Button variant="outline" onClick={handleCancel}>Cancel</Button>
             </div>
           </div>
         </Card>
@@ -153,31 +161,23 @@ export function ProjectsManager() {
 
       <div className="grid gap-4">
         {projects.map((project) => (
-          <Card key={project.id} className="p-4">
+          <Card key={project._id} className="p-4">
             <div className="flex items-start justify-between gap-4 mb-4">
               <h3 className="font-semibold text-lg">{project.title}</h3>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => handleEdit(project)}>
                   <Edit className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => handleDelete(project.id)}>
+                <Button variant="outline" size="sm" onClick={() => handleDelete(project._id)}>
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
             </div>
             <div className="space-y-2 text-sm">
-              <div>
-                <span className="font-medium text-accent">Problem:</span> {project.problem}
-              </div>
-              <div>
-                <span className="font-medium text-accent">Decision:</span> {project.decision}
-              </div>
-              <div>
-                <span className="font-medium text-accent">Trade-offs:</span> {project.tradeoff}
-              </div>
-              <div>
-                <span className="font-medium text-accent">Outcome:</span> {project.outcome}
-              </div>
+              <div><span className="font-medium text-accent">Problem:</span> {project.problem}</div>
+              <div><span className="font-medium text-accent">Decision:</span> {project.decision}</div>
+              <div><span className="font-medium text-accent">Trade-offs:</span> {project.tradeoff}</div>
+              <div><span className="font-medium text-accent">Outcome:</span> {project.outcome}</div>
             </div>
           </Card>
         ))}
