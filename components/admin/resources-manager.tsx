@@ -16,12 +16,13 @@ interface Resource {
   description: string
 }
 
+
 export function ResourcesManager() {
   const [resources, setResources] = useState<Resource[]>([])
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState({ title: "", category: "coding", description: "" })
-
+const [file, setFile] = useState<File | null>(null)
   // Fetch resources from backend
   useEffect(() => {
     const fetchResources = async () => {
@@ -53,21 +54,31 @@ export function ResourcesManager() {
   }
 
   const handleUpdate = async () => {
-    if (!editingId) return
-    try {
-      const res = await fetch(`${BASE_URL}/resources/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-      const updatedResource = await res.json()
-      setResources(resources.map((r) => (r._id === editingId ? updatedResource : r)))
-      setEditingId(null)
-      setFormData({ title: "", category: "coding", description: "" })
-    } catch (err) {
-      console.error("Failed to update resource", err)
-    }
+  if (!editingId) return
+  try {
+    const form = new FormData()
+    form.append("title", formData.title)
+    form.append("category", formData.category)
+    form.append("description", formData.description)
+    if (file) form.append("file", file) // include file only if selected
+
+    const res = await fetch(`${BASE_URL}/resources/${editingId}`, {
+      method: "PUT",
+      body: form, // do NOT set Content-Type
+    })
+
+    if (!res.ok) throw new Error("Failed to update resource")
+
+    const updatedResource = await res.json()
+    setResources(resources.map((r) => (r._id === editingId ? updatedResource.resource : r)))
+    setEditingId(null)
+    setFormData({ title: "", category: "coding", description: "" })
+    setFile(null)
+  } catch (err) {
+    console.error("Failed to update resource", err)
   }
+}
+
 
   const handleDelete = async (id: string) => {
     try {
@@ -138,6 +149,13 @@ export function ResourcesManager() {
                 rows={3}
               />
             </div>
+            <div>
+  <label className="block text-sm font-medium mb-2">File</label>
+  <input
+    type="file"
+    onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+  />
+</div>
 
             <div className="flex gap-2">
               <Button onClick={editingId ? handleUpdate : handleAdd}>{editingId ? "Update" : "Add"}</Button>
