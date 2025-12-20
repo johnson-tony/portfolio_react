@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Mail, CheckCircle2 } from "lucide-react"
+import { sendMessage } from "@/services/api"   // 👈 IMPORTANT
 
 export function ContactSection() {
   const [email, setEmail] = useState("")
@@ -18,29 +19,20 @@ export function ContactSection() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    const newMessage = {
-      id: Date.now().toString(),
-      email,
-      message,
-      timestamp: new Date().toISOString(),
-      read: false,
+    try {
+      const res = await sendMessage({ email, message })
+
+      console.log("Saved in DB:", res)
+
+      setSubmitted(true)
+      setEmail("")
+      setMessage("")
+      setTimeout(() => setSubmitted(false), 5000)
+    } catch (err) {
+      alert("Something went wrong")
+    } finally {
+      setIsSubmitting(false)
     }
-
-    const saved = localStorage.getItem("contact-messages")
-    const messages = saved ? JSON.parse(saved) : []
-    messages.unshift(newMessage)
-    localStorage.setItem("contact-messages", JSON.stringify(messages))
-
-    // Simulate submission delay
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    setSubmitted(true)
-    setEmail("")
-    setMessage("")
-    setIsSubmitting(false)
-
-    // Reset success message after 5 seconds
-    setTimeout(() => setSubmitted(false), 5000)
   }
 
   return (
