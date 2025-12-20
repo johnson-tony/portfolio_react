@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -15,8 +14,6 @@ interface Resource {
   category: string
   description: string
 }
-
-
 export function ResourcesManager() {
   const [resources, setResources] = useState<Resource[]>([])
   const [isAdding, setIsAdding] = useState(false)
@@ -78,7 +75,6 @@ const [file, setFile] = useState<File | null>(null)
     console.error("Failed to update resource", err)
   }
 }
-
 
   const handleDelete = async (id: string) => {
     try {

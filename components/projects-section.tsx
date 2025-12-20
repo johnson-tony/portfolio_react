@@ -51,8 +51,10 @@ export function ProjectsSection() {
           {projects.map((project) => (
             <Card key={project._id} className="p-6 hover:shadow-lg transition-shadow">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl font-semibold">{project.title}</h3>
-                <ArrowUpRight className="h-5 w-5 text-muted-foreground" />
+                <h3 className="text-xl font-semibold"> {project.title && (
+  <ArrowUpRight className="h-5 w-5 text-muted-foreground" />
+)}</h3>
+                
               </div>
 
               <div className="space-y-4">
