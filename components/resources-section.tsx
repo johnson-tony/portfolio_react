@@ -1,52 +1,61 @@
-import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Search, FileText, BookOpen, Server, Cloud, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { PDFViewer } from "./pdf-viewer";
-import { BASE_URL } from "@/config/api";
+"use client"
+
+import { useState, useEffect } from "react"
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Search, FileText, BookOpen, Server, Cloud, Clock } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { PDFViewer } from "./pdf-viewer"
+import { BASE_URL } from "@/config/api"
 
 interface Resource {
-  _id: string;
-  title: string;
-  category: "coding" | "interview" | "backend" | "cloud";
-  description: string;
-  fileUrl?: string;
+  _id: string
+  title: string
+  category: "coding" | "interview" | "backend" | "cloud"
+  description: string
+  fileUrl?: string
 }
 
-const CATEGORY_ICONS = { coding: FileText, interview: BookOpen, backend: Server, cloud: Cloud };
-const CATEGORY_LABELS = { coding: "Coding", interview: "Interview Prep", backend: "Backend", cloud: "Cloud" };
+const CATEGORY_ICONS = { coding: FileText, interview: BookOpen, backend: Server, cloud: Cloud }
+const CATEGORY_LABELS = { coding: "Coding", interview: "Interview Prep", backend: "Backend", cloud: "Cloud" }
 
 export function ResourcesSection() {
-  const [resources, setResources] = useState<Resource[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [viewingResource, setViewingResource] = useState<Resource | null>(null);
+  const [resources, setResources] = useState<Resource[]>([])
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState<string>("all")
+  const [viewingResource, setViewingResource] = useState<Resource | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
   useEffect(() => {
-    // Fetch resources from backend
     const fetchResources = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/resources`);
-        const data = await res.json();
-        setResources(data);
-      } catch (err) {
-        console.error("Failed to fetch resources", err);
+        const res = await fetch(`${BASE_URL}/resources`)
+        if (!res.ok) throw new Error("Failed to fetch resources")
+        const data: Resource[] = await res.json()
+        setResources(data)
+      } catch (err: any) {
+        setError(err.message || "Something went wrong")
+      } finally {
+        setLoading(false)
       }
-    };
-    fetchResources();
-  }, []);
+    }
+    fetchResources()
+  }, [])
 
   const filteredResources = resources.filter((resource) => {
     const matchesSearch =
       resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      resource.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || resource.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+      resource.description.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesCategory = selectedCategory === "all" || resource.category === selectedCategory
+    return matchesSearch && matchesCategory
+  })
 
-  const handleOpenResource = (resource: Resource) => setViewingResource(resource);
-  const handleCloseViewer = () => setViewingResource(null);
+  const handleOpenResource = (resource: Resource) => setViewingResource(resource)
+  const handleCloseViewer = () => setViewingResource(null)
+
+  if (loading) return <p className="text-center py-12">Loading resources...</p>
+  if (error) return <p className="text-center py-12 text-red-500">{error}</p>
 
   return (
     <>
@@ -71,11 +80,20 @@ export function ResourcesSection() {
 
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
-              <Button variant={selectedCategory === "all" ? "default" : "outline"} size="sm" onClick={() => setSelectedCategory("all")}>
+              <Button
+                variant={selectedCategory === "all" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory("all")}
+              >
                 All
               </Button>
               {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
-                <Button key={key} variant={selectedCategory === key ? "default" : "outline"} size="sm" onClick={() => setSelectedCategory(key)}>
+                <Button
+                  key={key}
+                  variant={selectedCategory === key ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedCategory(key)}
+                >
                   {label}
                 </Button>
               ))}
@@ -83,9 +101,13 @@ export function ResourcesSection() {
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filteredResources.map((resource) => {
-                const Icon = CATEGORY_ICONS[resource.category];
+                const Icon = CATEGORY_ICONS[resource.category]
                 return (
-                  <Card key={resource._id} className="p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => handleOpenResource(resource)}>
+                  <Card
+                    key={resource._id}
+                    className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                    onClick={() => handleOpenResource(resource)}
+                  >
                     <div className="flex items-start gap-3">
                       <div className="flex-shrink-0">
                         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
@@ -101,7 +123,7 @@ export function ResourcesSection() {
                       </div>
                     </div>
                   </Card>
-                );
+                )
               })}
             </div>
 
@@ -114,7 +136,9 @@ export function ResourcesSection() {
         </div>
       </section>
 
-      {viewingResource && <PDFViewer resourceId={viewingResource._id} title={viewingResource.title} onClose={handleCloseViewer} />}
+      {viewingResource && (
+        <PDFViewer resourceId={viewingResource._id} title={viewingResource.title} onClose={handleCloseViewer} />
+      )}
     </>
-  );
+  )
 }

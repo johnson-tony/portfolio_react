@@ -1,35 +1,43 @@
 "use client"
 
-import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
-import { ArrowUpRight } from "lucide-react";
-import { BASE_URL } from "@/config/api";
+import { useState, useEffect } from "react"
+import { Card } from "@/components/ui/card"
+import { ArrowUpRight } from "lucide-react"
+import { BASE_URL } from "@/config/api"
 
 interface Project {
-  _id: string;
-  title: string;
-  problem: string;
-  decision: string;
-  tradeoff: string;
-  outcome: string;
+  _id: string
+  title: string
+  problem: string
+  decision: string
+  tradeoff: string
+  outcome: string
 }
 
 export function ProjectsSection() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/projects`);
-        const data = await res.json();
-        setProjects(data);
-      } catch (err) {
-        console.error("Failed to fetch projects", err);
+        const res = await fetch(`${BASE_URL}/projects`)
+        if (!res.ok) throw new Error("Failed to fetch projects")
+        const data: Project[] = await res.json()
+        setProjects(data)
+      } catch (err: any) {
+        setError(err.message || "Something went wrong")
+      } finally {
+        setLoading(false)
       }
-    };
+    }
 
-    fetchProjects();
-  }, []);
+    fetchProjects()
+  }, [])
+
+  if (loading) return <p className="text-center py-12">Loading projects...</p>
+  if (error) return <p className="text-center py-12 text-red-500">{error}</p>
 
   return (
     <section id="projects" className="border-t border-border">
@@ -70,14 +78,14 @@ export function ProjectsSection() {
               </div>
             </Card>
           ))}
-
-          {projects.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No projects found</p>
-            </div>
-          )}
         </div>
+
+        {projects.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No projects found</p>
+          </div>
+        )}
       </div>
     </section>
-  );
+  )
 }
