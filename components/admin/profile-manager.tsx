@@ -20,32 +20,43 @@ interface Profile {
 }
 
 export function ProfileManager() {
-  const [profile, setProfile] = useState<Profile>({
-    fullName: "",
-    role: "",
-    about: "",
-    currentFocus: "",
-    skills: "",
-    linkedin: "",
-    github: "",
-    email: "",
-  })
-
+  // Allow profile to be null initially
+  const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
 
-  // Load profile from backend
+  // Fetch profile from backend
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const res = await fetch(`${BASE_URL}/profile`)
         if (!res.ok) throw new Error("Failed to fetch profile")
         const data = await res.json()
-        setProfile(data)
+        setProfile(data || {
+          fullName: "",
+          role: "",
+          about: "",
+          currentFocus: "",
+          skills: "",
+          linkedin: "",
+          github: "",
+          email: "",
+        }) // fallback to default if API returns null
       } catch (err) {
         console.error(err)
         setMessage("Failed to load profile")
+        // fallback default
+        setProfile({
+          fullName: "",
+          role: "",
+          about: "",
+          currentFocus: "",
+          skills: "",
+          linkedin: "",
+          github: "",
+          email: "",
+        })
       } finally {
         setLoading(false)
       }
@@ -53,7 +64,9 @@ export function ProfileManager() {
     fetchProfile()
   }, [])
 
+  // Save profile to backend
   const handleSave = async () => {
+    if (!profile) return
     setSaving(true)
     try {
       const res = await fetch(`${BASE_URL}/profile`, {
@@ -72,7 +85,7 @@ export function ProfileManager() {
     }
   }
 
-  if (loading) return <p>Loading profile...</p>
+  if (loading || !profile) return <p>Loading profile...</p>
 
   return (
     <div className="space-y-6">
