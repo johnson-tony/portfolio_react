@@ -6,15 +6,9 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FileText, BookOpen, Server, Cloud } from "lucide-react"
 import { BASE_URL } from "@/config/api"
+import type { ComponentType } from "react"
 
-// ✅ Dynamic import of PDFViewer with props type
-const PDFViewer = dynamic<{
-  resourceId: string
-  fileUrl: string
-  title: string
-  onClose: () => void
-}>(() => import("./pdf-viewer"), { ssr: false })
-
+// Define Resource type
 interface Resource {
   _id: string
   title: string
@@ -22,6 +16,20 @@ interface Resource {
   description: string
   fileUrl?: string
 }
+
+// Define PDFViewer props type (must match the actual component)
+interface PDFViewerProps {
+  resourceId: string
+  fileUrl: string
+  title: string
+  onClose: () => void
+}
+
+// Dynamically import PDFViewer with correct typing
+const PDFViewer: ComponentType<PDFViewerProps> = dynamic<PDFViewerProps>(
+  () => import("./pdf-viewer").then((mod) => mod.PDFViewer),
+  { ssr: false }
+)
 
 const CATEGORY_ICONS = { coding: FileText, interview: BookOpen, backend: Server, cloud: Cloud }
 const CATEGORY_LABELS = { coding: "Coding", interview: "Interview Prep", backend: "Backend", cloud: "Cloud" }
@@ -58,7 +66,6 @@ export function ResourcesSection() {
       alert("No file uploaded for this resource")
       return
     }
-    // ✅ Pass full URL here
     setViewingResource({ ...resource, fileUrl: `${BASE_URL}${resource.fileUrl}` })
   }
   const handleCloseViewer = () => setViewingResource(null)
@@ -133,7 +140,6 @@ export function ResourcesSection() {
         </div>
       </section>
 
-      {/* PDF Viewer */}
       {viewingResource && (
         <PDFViewer
           resourceId={viewingResource._id}

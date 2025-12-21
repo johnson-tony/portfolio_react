@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react"
 import { Document, Page, pdfjs } from "react-pdf"
-import { BASE_URL } from "@/config/api"
+import { Button } from "@/components/ui/button"
+import { X } from "lucide-react"
 
-// ✅ Set worker for react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
+// ✅ IMPORTANT: worker version must match react-pdf version
+pdfjs.GlobalWorkerOptions.workerSrc = 
+  `https://unpkg.com/pdfjs-dist@5.4.296/build/pdf.worker.min.js`
 
 interface PDFViewerProps {
   resourceId: string
@@ -16,58 +16,61 @@ interface PDFViewerProps {
   onClose: () => void
 }
 
-export default function PDFViewer({ resourceId, fileUrl, title, onClose }: PDFViewerProps) {
-  const [numPages, setNumPages] = useState(0)
-  const [page, setPage] = useState(1)
-  const [zoom, setZoom] = useState(1.0)
-
-  const onDocumentLoadSuccess = ({ numPages }: any) => setNumPages(numPages)
-
-  // Load saved page progress
-  useEffect(() => {
-    const saved = localStorage.getItem(`pdf-progress-${resourceId}`)
-    if (saved) setPage(JSON.parse(saved).page || 1)
-  }, [resourceId])
-
-  // Save progress
-  useEffect(() => {
-    localStorage.setItem(
-      `pdf-progress-${resourceId}`,
-      JSON.stringify({ page, lastAccessed: new Date().toISOString() })
-    )
-  }, [page, resourceId])
+export function PDFViewer({
+  fileUrl,
+  title,
+  onClose,
+}: PDFViewerProps) {
+  const [numPages, setNumPages] = useState<number | null>(null)
+  const [pageNumber, setPageNumber] = useState(1)
 
   return (
-    <div className="fixed inset-0 z-50 bg-background overflow-auto p-4">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-lg font-semibold text-white">{title}</h2>
-        <Button variant="ghost" size="icon" onClick={onClose}>
-          <X className="h-5 w-5" />
-        </Button>
-      </div>
+    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+      <div className="bg-[#0b1220] w-full max-w-4xl h-[90vh] rounded-lg shadow-lg flex flex-col">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700">
+          <h3 className="text-white text-sm font-medium truncate">{title}</h3>
+          <Button size="icon" variant="ghost" onClick={onClose}>
+            <X className="h-4 w-4 text-white" />
+          </Button>
+        </div>
 
-      {/* Toolbar */}
-      <div className="flex items-center gap-2 mb-4 text-white">
-        <Button onClick={() => setPage(p => Math.max(p - 1, 1))} disabled={page === 1}>
-          <ChevronLeft />
-        </Button>
-        <span>Page {page} of {numPages}</span>
-        <Button onClick={() => setPage(p => Math.min(p + 1, numPages))} disabled={page === numPages}>
-          <ChevronRight />
-        </Button>
-        <Button onClick={() => setZoom(z => Math.min(z + 0.25, 2))}><ZoomIn /></Button>
-        <Button onClick={() => setZoom(z => Math.max(z - 0.25, 0.5))}><ZoomOut /></Button>
-      </div>
+        {/* PDF */}
+        <div className="flex-1 overflow-auto flex justify-center p-4">
+          <Document
+            file={fileUrl}
+            onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+            onLoadError={(err) => console.error("PDF load error", err)}
+          >
+            <Page pageNumber={pageNumber} />
+          </Document>
+        </div>
 
-      {/* PDF */}
-      <div className="flex justify-center">
-        <Document
-          file={fileUrl}
-          onLoadSuccess={onDocumentLoadSuccess}
-        >
-          <Page pageNumber={page} scale={zoom} />
-        </Document>
+        {/* Footer */}
+        {numPages && (
+          <div className="flex items-center justify-between px-4 py-2 border-t border-gray-700 text-white text-sm">
+            <Button
+              size="sm"
+              disabled={pageNumber <= 1}
+              onClick={() => setPageNumber((p) => p - 1)}
+            >
+              Prev
+            </Button>
+
+            <span>
+              Page {pageNumber} of {numPages}
+            </span>
+
+            <Button
+              size="sm"
+              disabled={pageNumber >= numPages}
+              onClick={() => setPageNumber((p) => p + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   )

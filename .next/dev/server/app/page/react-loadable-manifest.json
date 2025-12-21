@@ -2,7 +2,7 @@
   "[project]/components/pdf-viewer.tsx [app-client] (ecmascript, next/dynamic entry)": {
     "id": "[project]/components/pdf-viewer.tsx [app-client] (ecmascript, next/dynamic entry)",
     "files": [
-      "static/chunks/node_modules_6e0fd2ac._.js",
+      "static/chunks/node_modules_f1c3afd9._.js",
       "static/chunks/components_pdf-viewer_tsx_63abcc37._.js",
       "static/chunks/components_pdf-viewer_tsx_2ab9c923._.js"
     ]

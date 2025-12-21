@@ -1,110 +1,13 @@
-[00:00:02.434] Server  LOG      ✓ Ready in 1483ms
-[00:00:05.563] Server  LOG      ○ Compiling / ...
-[00:00:06.845] Server  WARN    Warning: Please use the `legacy` build in Node.js environments.
-[00:00:06.937] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\node_modules_pdfjs-dist_build_pdf_mjs_74288fa9._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:06.940] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\[turbopack]_runtime.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:06.943] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\node_modules_react-pdf_dist_f971952e._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:06.946] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\_52c6f0d9._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:07.007] Server  ERROR   C:\projects\portfolio_react\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:07.008] Server  ERROR    ⨯ ReferenceError: DOMMatrix is not defined
-[00:00:07.754] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:07.793] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:07.845] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:09.462] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:09.462] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin","route":"/admin"}
-[00:00:09.462] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766341689070}
-[00:00:09.462] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:09.462] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:00:09.462] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766341689360}
-[00:00:09.462] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:09.462] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin","route":"/admin"}
-[00:00:09.462] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766341689437}
-[00:04:30.649] Server  LOG      ✓ Compiled in 243ms
-[00:05:39.350] Server  LOG      ✓ Compiled in 127ms
-[00:08:44.299] Server  WARN    Warning: Please use the `legacy` build in Node.js environments.
-[00:08:44.441] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\node_modules_pdfjs-dist_build_pdf_mjs_74288fa9._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:08:44.444] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\[turbopack]_runtime.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:08:44.448] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\node_modules_react-pdf_dist_f971952e._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:08:44.453] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\_52c6f0d9._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:08:44.457] Server  ERROR   C:\projects\portfolio_react\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:08:44.459] Server  ERROR    ⨯ ReferenceError: DOMMatrix is not defined
-[00:08:44.763] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:08:46.246] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:08:46.246] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:08:46.246] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766342205806}
-[00:08:50.269] Browser ERROR   uncaughtError: Error: No "GlobalWorkerOptions.workerSrc" specified.
-[00:10:02.733] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\node_modules_pdfjs-dist_build_pdf_mjs_74288fa9._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:10:02.734] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\[turbopack]_runtime.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:10:02.735] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\node_modules_react-pdf_dist_f971952e._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:10:02.736] Server  ERROR   C:\projects\portfolio_react\.next\dev\server\chunks\ssr\_52c6f0d9._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:10:02.740] Server  ERROR   C:\projects\portfolio_react\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:10:02.742] Server  ERROR    ⨯ ReferenceError: DOMMatrix is not defined
-[00:10:03.003] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:10:04.611] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:10:04.611] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:10:04.611] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766342284066}
-[00:11:41.355] Browser ERROR   uncaughtError: Error: No "GlobalWorkerOptions.workerSrc" specified.
-[00:13:49.351] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:13:49.788] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:13:50.093] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:13:50.093] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:13:50.093] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766342510915}
-[00:13:53.274] Server  LOG      ✓ Compiled in 200ms
-[00:13:55.899] Server  LOG      ✓ Compiled in 156ms
-[00:13:58.661] Server  LOG      ✓ Compiled in 164ms
-[00:14:35.969] Server  LOG      ✓ Compiled in 188ms
-[00:16:38.369] Server  LOG      ✓ Compiled in 160ms
-[00:16:56.772] Server  LOG      ✓ Compiled in 205ms
-[00:16:57.092] Browser ERROR   ./components/resources-section.tsx:140:38
-Parsing ecmascript source code failed
-  138 |         <PDFViewer
-  139 |           resourceId={viewingResource._id}
-> 140 |           fileUrl={viewingResource.fi
-      |                                      ^
-  141 |
-
-Expected '</', got '<eof>'
-
-Import trace:
-  Server Component:
-    ./components/resources-section.tsx
-    ./app/page.tsx
-[00:16:57.094] Browser ERROR   ./components/resources-section.tsx:140:38
-Parsing ecmascript source code failed
-  138 |         <PDFViewer
-  139 |           resourceId={viewingResource._id}
-> 140 |           fileUrl={viewingResource.fi
-      |                                      ^
-  141 |
-
-Expected '</', got '<eof>'
-
-Import trace:
-  Server Component:
-    ./components/resources-section.tsx
-    ./app/page.tsx
-[00:16:57.094] Browser ERROR   ./components/resources-section.tsx:140:38
-Parsing ecmascript source code failed
-  138 |         <PDFViewer
-  139 |           resourceId={viewingResource._id}
-> 140 |           fileUrl={viewingResource.fi
-      |                                      ^
-  141 |
-
-Expected '</', got '<eof>'
-
-Import trace:
-  Server Component:
-    ./components/resources-section.tsx
-    ./app/page.tsx
-[00:17:09.883] Server  LOG      ✓ Compiled in 153ms
-[00:17:23.389] Server  LOG      ✓ Compiled in 171ms
-[00:17:47.093] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/login color: rgb(120, 120, 120) color: inherit {"dp":"/admin/login","o":"http://localhost:3000/admin/login","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766342747920}
-[00:17:49.206] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766342750017}
-[00:17:49.461] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/login color: rgb(120, 120, 120) color: inherit {"dp":"/admin/login","o":"http://localhost:3000/admin/login","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766342750287}
-[00:18:38.017] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:18:38.294] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:18:38.294] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:18:38.294] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766342799126}
-[00:18:43.893] Browser WARN    Warning: Setting up fake worker.
-[00:18:43.893] Browser ERROR   Warning: Error: Setting up fake worker failed: "Failed to fetch dynamically imported module: http://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.4.296/pdf.worker.js".
+[00:00:03.513] Server  LOG      ✓ Ready in 2.5s
+[00:00:44.569] Server  LOG      ○ Compiling / ...
+[00:00:49.848] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:50.152] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:50.152] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:50.153] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766345663781}
+[00:00:55.263] Browser WARN    Warning: Setting up fake worker.
+[00:00:55.389] Browser ERROR   Warning: Error: Setting up fake worker failed: "Failed to fetch dynamically imported module: https://unpkg.com/pdfjs-dist@5.4.296/build/pdf.worker.min.js".
+[00:00:55.389] Browser ERROR   PDF load error {}
+[00:01:08.095] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:08.453] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:01:08.453] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:01:08.454] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766345682083}
