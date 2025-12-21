@@ -45,7 +45,13 @@ export function ResourcesSection() {
     (r) => selectedCategory === "all" || r.category === selectedCategory
   )
 
-  const handleOpenResource = (resource: Resource) => setViewingResource(resource)
+  const handleOpenResource = (resource: Resource) => {
+    if (!resource.fileUrl) {
+      alert("No file uploaded for this resource")
+      return
+    }
+    setViewingResource({ ...resource, fileUrl: `${BASE_URL}${resource.fileUrl}` })
+  }
   const handleCloseViewer = () => setViewingResource(null)
 
   if (loading) return <p className="text-center py-12 text-gray-300">Loading resources...</p>
@@ -119,7 +125,12 @@ export function ResourcesSection() {
       </section>
 
       {viewingResource && (
-        <PDFViewer resourceId={viewingResource._id} title={viewingResource.title} onClose={handleCloseViewer} />
+        <PDFViewer
+          resourceId={viewingResource._id}
+          fileUrl={viewingResource.fileUrl!}
+          title={viewingResource.title}
+          onClose={handleCloseViewer}
+        />
       )}
     </>
   )
