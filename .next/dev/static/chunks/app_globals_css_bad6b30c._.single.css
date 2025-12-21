@@ -106,6 +106,7 @@
     --color-sky-400: #00bcfe;
     --color-sky-500: #00a5ef;
     --color-sky-600: #0084cc;
+    --color-blue-600: #155dfc;
     --color-slate-700: #314158;
     --color-slate-800: #1d293d;
     --color-slate-900: #0f172b;
@@ -182,6 +183,7 @@
       --color-sky-400: lab(70.687% -23.6078 -45.9483);
       --color-sky-500: lab(63.3038% -18.433 -51.0407);
       --color-sky-600: lab(51.7754% -11.4713 -49.8349);
+      --color-blue-600: lab(44.0605% 29.0279 -86.0352);
       --color-slate-700: lab(26.9569% -1.47018 -15.6993);
       --color-slate-800: lab(16.132% -.318021 -14.6672);
       --color-slate-900: lab(7.78673% 1.82346 -15.0537);
@@ -2713,6 +2715,10 @@
     color: var(--background);
   }
 
+  .text-blue-600 {
+    color: var(--color-blue-600);
+  }
+
   .text-card-foreground {
     color: var(--card-foreground);
   }
@@ -2834,6 +2840,10 @@
   .tabular-nums {
     --tw-numeric-spacing: tabular-nums;
     font-variant-numeric: var(--tw-ordinal, ) var(--tw-slashed-zero, ) var(--tw-numeric-figure, ) var(--tw-numeric-spacing, ) var(--tw-numeric-fraction, );
+  }
+
+  .underline {
+    text-decoration-line: underline;
   }
 
   .underline-offset-4 {
@@ -2972,6 +2982,10 @@
 
   .grayscale-\[15\%\] {
     --tw-grayscale: grayscale(15%);
+    filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
+  }
+
+  .filter {
     filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
   }
 
