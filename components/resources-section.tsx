@@ -1,11 +1,19 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FileText, BookOpen, Server, Cloud } from "lucide-react"
-import { PDFViewer } from "./pdf-viewer"
 import { BASE_URL } from "@/config/api"
+
+// ✅ Dynamic import of PDFViewer with props type
+const PDFViewer = dynamic<{
+  resourceId: string
+  fileUrl: string
+  title: string
+  onClose: () => void
+}>(() => import("./pdf-viewer"), { ssr: false })
 
 interface Resource {
   _id: string
@@ -50,6 +58,7 @@ export function ResourcesSection() {
       alert("No file uploaded for this resource")
       return
     }
+    // ✅ Pass full URL here
     setViewingResource({ ...resource, fileUrl: `${BASE_URL}${resource.fileUrl}` })
   }
   const handleCloseViewer = () => setViewingResource(null)
@@ -124,6 +133,7 @@ export function ResourcesSection() {
         </div>
       </section>
 
+      {/* PDF Viewer */}
       {viewingResource && (
         <PDFViewer
           resourceId={viewingResource._id}
