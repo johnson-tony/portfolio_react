@@ -36,58 +36,78 @@ export function ProjectsSection() {
     fetchProjects()
   }, [])
 
-  if (loading) return <p className="text-center py-12">Loading projects...</p>
-  if (error) return <p className="text-center py-12 text-red-500">{error}</p>
+  if (loading)
+    return <p className="text-center py-12 text-cyan-400">Loading projects...</p>
+  if (error)
+    return <p className="text-center py-12 text-red-500">{error}</p>
 
   return (
-    <section id="projects" className="border-t border-border">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold tracking-tight mb-2">Projects</h2>
-          <p className="text-muted-foreground">Key projects with technical decisions and outcomes</p>
-        </div>
+    <section
+  id="projects"
+  className="border-t border-gray-700 bg-[#0b1220] relative overflow-hidden"
+>
+  {/* Optional subtle gradient overlay */}
+  <div className="absolute inset-0 bg-gradient-to-b from-[#0b1220]/40 to-[#0b1220]/0 pointer-events-none" />
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          {projects.map((project) => (
-            <Card key={project._id} className="p-6 hover:shadow-lg transition-shadow">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl font-semibold"> {project.title && (
-  <ArrowUpRight className="h-5 w-5 text-muted-foreground" />
-)}</h3>
-                
-              </div>
+  <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 ">
+    {/* Header */}
+    <div className="mb-12 text-center">
+      <h2 className="text-4xl font-bold tracking-tight text-white mb-2">
+        Projects
+      </h2>
+      <p className="text-gray-400 max-w-2xl mx-auto">
+        Key projects with technical decisions, trade-offs, and outcomes.
+      </p>
+    </div>
 
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm font-medium text-accent mb-1">Problem</h4>
-                  <p className="text-sm text-muted-foreground">{project.problem}</p>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-medium text-accent mb-1">Decision</h4>
-                  <p className="text-sm text-muted-foreground">{project.decision}</p>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-medium text-accent mb-1">Trade-offs</h4>
-                  <p className="text-sm text-muted-foreground">{project.tradeoff}</p>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-medium text-accent mb-1">Outcome</h4>
-                  <p className="text-sm text-muted-foreground">{project.outcome}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        {projects.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No projects found</p>
+    {/* Horizontal scroll wrapper */}
+    <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory">
+      {projects.map((project) => (
+        <Card
+          key={project._id}
+          className="flex-shrink-0 w-[300px] sm:w-[320px] md:w-[360px] lg:w-[380px] p-6 bg-gradient-to-br from-gray-900/70 via-gray-800/50 to-gray-900/70 rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 snap-start"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-semibold text-cyan-400">
+              {project.title}
+            </h3>
+            <ArrowUpRight className="h-5 w-5 text-cyan-400" />
           </div>
-        )}
+
+          {/* Details */}
+          <div className="space-y-3">
+            <div>
+              <h4 className="text-sm font-medium text-cyan-300 mb-1">Problem</h4>
+              <p className="text-gray-300 text-sm">{project.problem}</p>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium text-cyan-300 mb-1">Decision</h4>
+              <p className="text-gray-300 text-sm">{project.decision}</p>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium text-cyan-300 mb-1">Trade-offs</h4>
+              <p className="text-gray-300 text-sm">{project.tradeoff}</p>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium text-cyan-300 mb-1">Outcome</h4>
+              <p className="text-gray-300 text-sm">{project.outcome}</p>
+            </div>
+          </div>
+        </Card>
+      ))}
+    </div>
+
+    {projects.length === 0 && (
+      <div className="text-center py-12">
+        <p className="text-gray-400">No projects found</p>
       </div>
-    </section>
+    )}
+  </div>
+</section>
+
   )
 }
